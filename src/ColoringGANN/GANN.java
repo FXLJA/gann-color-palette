@@ -17,12 +17,12 @@ public class GANN {
     public Color[] generateColor(int mode, Color c) {
         Color[] colors = new Color[4];
 
-        int[] colorData = fowardPropagation(mode, c);
+        double[] colorData = fowardPropagation(mode, c);
 
         for (int i = 0; i < 4; i++) {
-            int h = constrain(colorData[i * 3], 0, 360);
-            float s = constrain(colorData[i * 3 + 1], 0, 100) / 100.0f;
-            float v = constrain(colorData[i * 3 + 2], 0, 100) / 100.0f;
+            float h = (float) colorData[i * 3];
+            float s = (float) colorData[i * 3 + 1];
+            float v = (float) colorData[i * 3 + 2];
 
             colors[i] = Color.getHSBColor(h, s, v);
         }
@@ -30,28 +30,18 @@ public class GANN {
         return colors;
     }
 
-    private int constrain(int value, int min, int max) {
-        if (value > max) {
-            return max;
-        }
-        if (value < min) {
-            return min;
-        }
-        return value;
-    }
-
-    private int[] fowardPropagation(int mode, Color c) {
-        int[] input_layer = new int[4];
+    private double[] fowardPropagation(int mode, Color c) {
+        double[] input_layer = new double[4];
         double[] hidden_layer = new double[8];
-        int[] output_layer = new int[12];
+        double[] output_layer = new double[12];
 
         float[] color_hsb = new float[3];
         Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), color_hsb);
 
         input_layer[0] = mode;
-        input_layer[1] = (int) Math.floor(color_hsb[0] * 360);
-        input_layer[2] = (int) Math.floor(color_hsb[1] * 100);
-        input_layer[3] = (int) Math.floor(color_hsb[2] * 100);
+        input_layer[1] = color_hsb[0];
+        input_layer[2] = color_hsb[1];
+        input_layer[3] = color_hsb[2];
 
         double[][] weight_input_to_hidden = new double[hidden_layer.length][input_layer.length];
         double[][] weight_hidden_to_output = new double[output_layer.length][hidden_layer.length];
@@ -75,7 +65,7 @@ public class GANN {
                 total += input_layer[k] * weight_input_to_hidden[i][k];
             }
             // Activation function Sigmoid
-            hidden_layer[i] = 1.0 / (1.0 + Math.exp(-total));
+            hidden_layer[i] = sigmoid(total);
         }
 
         for (int i = 0; i < output_layer.length; i++) {
@@ -83,10 +73,14 @@ public class GANN {
             for (int k = 0; k < hidden_layer.length; k++) {
                 output_layer[i] += hidden_layer[k] * weight_hidden_to_output[i][k];
             }
-            output_layer[i] = (int) Math.floor(total);
+            output_layer[i] = sigmoid(total);
         }
 
         return output_layer;
+    }
+    
+    private double sigmoid(double x) {
+        return 1.0 / (1.0 + Math.exp(-x));
     }
 
     public GANN clone() {
