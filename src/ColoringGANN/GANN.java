@@ -4,11 +4,11 @@ import java.util.Random;
 import java.awt.Color;
 
 public class GANN {
-
+    private Random rand = new Random(System.currentTimeMillis());
     public double[] dna = new double[128];
 
     public void randomize() {
-        Random rand = new Random(System.currentTimeMillis());
+        
         for (int i = 0; i < dna.length; i++) {
             dna[i] = rand.nextDouble();
         }
@@ -91,5 +91,15 @@ public class GANN {
         }
 
         return baru;
+    }
+    
+    public GANN mutate(float mutationRate) {
+        for (int i = 0; i < dna.length; i++) {
+            if(rand.nextFloat() < mutationRate) {
+                this.dna[i] = rand.nextDouble();
+            }
+        }
+        
+        return this;
     }
 }
