@@ -22,6 +22,15 @@ public class TrainingForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jButton6 = new javax.swing.JButton();
         jButton7 = new javax.swing.JButton();
+        jSlider1 = new javax.swing.JSlider();
+        jLabel2 = new javax.swing.JLabel();
+        jTextField2 = new javax.swing.JTextField();
+        jSlider2 = new javax.swing.JSlider();
+        jLabel3 = new javax.swing.JLabel();
+        jTextField3 = new javax.swing.JTextField();
+        jTextField4 = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        jSlider3 = new javax.swing.JSlider();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(497, 350));
@@ -66,6 +75,39 @@ public class TrainingForm extends javax.swing.JFrame {
         jButton7.setText("Kurang");
         getContentPane().add(jButton7);
         jButton7.setBounds(120, 290, 67, 23);
+        getContentPane().add(jSlider1);
+        jSlider1.setBounds(160, 60, 210, 22);
+
+        jLabel2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel2.setText("Training/Test Ratio");
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(20, 60, 130, 20);
+
+        jTextField2.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        getContentPane().add(jTextField2);
+        jTextField2.setBounds(380, 60, 90, 30);
+        getContentPane().add(jSlider2);
+        jSlider2.setBounds(130, 100, 240, 22);
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel3.setText("Population Size");
+        getContentPane().add(jLabel3);
+        jLabel3.setBounds(20, 100, 110, 20);
+
+        jTextField3.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        getContentPane().add(jTextField3);
+        jTextField3.setBounds(380, 100, 90, 30);
+
+        jTextField4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        getContentPane().add(jTextField4);
+        jTextField4.setBounds(380, 140, 90, 30);
+
+        jLabel4.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        jLabel4.setText("Mutation Rate");
+        getContentPane().add(jLabel4);
+        jLabel4.setBounds(20, 140, 110, 20);
+        getContentPane().add(jSlider3);
+        jSlider3.setBounds(130, 140, 240, 22);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -78,6 +120,15 @@ public class TrainingForm extends javax.swing.JFrame {
     private javax.swing.JButton jButton7;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JSlider jSlider1;
+    private javax.swing.JSlider jSlider2;
+    private javax.swing.JSlider jSlider3;
+    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField jTextField3;
+    private javax.swing.JTextField jTextField4;
     private ColoringGANN.PanelWarna panelWarna1;
     private ColoringGANN.PanelWarna panelWarna2;
     private ColoringGANN.PanelWarna panelWarna3;
