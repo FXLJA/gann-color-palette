@@ -95,7 +95,7 @@ public class GANN {
     public GANN mutate(float mutationRate) {
         for (int i = 0; i < dna.length; i++) {
             if(rand.nextFloat() < mutationRate) {
-                this.dna[i] = rand.nextDouble();
+                this.dna[i] = 200 * rand.nextDouble() - 100;
             }
         }
         
