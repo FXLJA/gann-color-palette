@@ -5,11 +5,14 @@ import java.awt.Color;
 
 public class GANN {
     private static Random rand = new Random(System.currentTimeMillis());
-    public double[] dna = new double[128];
+    double[] input_layer = new double[3];
+    double[] hidden_layer = new double[6];
+    double[] output_layer = new double[12];
+    public double[] dna = new double[input_layer.length * hidden_layer.length + hidden_layer.length * output_layer.length];
 
     public void randomize() {
         for (int i = 0; i < dna.length; i++) {
-            dna[i] = 200 * rand.nextDouble() - 100;
+            dna[i] = rand.nextGaussian() * 2 - 1;
         }
     }
 
@@ -30,17 +33,12 @@ public class GANN {
     }
 
     private double[] fowardPropagation(int mode, Color c) {
-        double[] input_layer = new double[4];
-        double[] hidden_layer = new double[8];
-        double[] output_layer = new double[12];
-
         float[] color_hsb = new float[3];
         Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), color_hsb);
 
-        input_layer[0] = mode;
-        input_layer[1] = color_hsb[0];
-        input_layer[2] = color_hsb[1];
-        input_layer[3] = color_hsb[2];
+        input_layer[0] = color_hsb[0];
+        input_layer[1] = color_hsb[1];
+        input_layer[2] = color_hsb[2];
 
         double[][] weight_input_to_hidden = new double[hidden_layer.length][input_layer.length];
         double[][] weight_hidden_to_output = new double[output_layer.length][hidden_layer.length];
@@ -95,7 +93,7 @@ public class GANN {
     public GANN mutate(float mutationRate) {
         for (int i = 0; i < dna.length; i++) {
             if(rand.nextFloat() < mutationRate) {
-                this.dna[i] = 200 * rand.nextDouble() - 100;
+                this.dna[i] = rand.nextGaussian() * 4 - 2;
             }
         }
         

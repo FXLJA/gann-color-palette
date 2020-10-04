@@ -131,17 +131,35 @@ public class TrainingForm extends javax.swing.JFrame {
 
     private void btn_generateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generateActionPerformed
         System.out.println("Professional : ");
-        System.out.print("#FF0000");printColors(geneticTrainer.bestANN.generateColor(0, Color.red));
-        System.out.print("#00FF00");printColors(geneticTrainer.bestANN.generateColor(0, Color.green));
-        System.out.print("#0000FF");printColors(geneticTrainer.bestANN.generateColor(0, Color.blue));
-        System.out.print("#000000");printColors(geneticTrainer.bestANN.generateColor(0, Color.black));
-        System.out.print("#FFFFFF");printColors(geneticTrainer.bestANN.generateColor(0, Color.white));
+        
+        float[] hsb = Color.RGBtoHSB(255, 0, 0, null);
+        System.out.println(String.format("%f, %f, %f", hsb[0], hsb[1], hsb[2]));
+        printColors(geneticTrainer.bestANN.generateColor(0, Color.red));
+        
+        hsb = Color.RGBtoHSB(0, 255, 0, null);
+        System.out.println(String.format("%f, %f, %f", hsb[0], hsb[1], hsb[2]));
+        printColors(geneticTrainer.bestANN.generateColor(0, Color.green));
+        
+        hsb = Color.RGBtoHSB(0, 0, 255, null);
+        System.out.println(String.format("%f, %f, %f", hsb[0], hsb[1], hsb[2]));
+        printColors(geneticTrainer.bestANN.generateColor(0, Color.blue));
+        
+        hsb = Color.RGBtoHSB(0, 0, 0, null);
+        System.out.println(String.format("%f, %f, %f", hsb[0], hsb[1], hsb[2]));
+        printColors(geneticTrainer.bestANN.generateColor(0, Color.black));
+        
+        hsb = Color.RGBtoHSB(255, 255, 255, null);
+        System.out.println(String.format("%f, %f, %f", hsb[0], hsb[1], hsb[2]));
+        printColors(geneticTrainer.bestANN.generateColor(0, Color.white));
+        
     }//GEN-LAST:event_btn_generateActionPerformed
     
     private void printColors(Color[] c){
         for(int i=0; i<c.length; i++) {
-            System.out.print(String.format("#%06x", c[i].getRGB() & 0x00FFFFFF).toUpperCase());
+            float[] hsb = Color.RGBtoHSB(c[i].getRed(), c[i].getGreen(), c[i].getBlue(), null);
+            System.out.println(String.format("%f, %f, %f", hsb[0], hsb[1], hsb[2]));
         }
+        System.out.println("-----------");
         System.out.println();
     }
     
