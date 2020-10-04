@@ -4,13 +4,12 @@ import java.util.Random;
 import java.awt.Color;
 
 public class GANN {
-    private Random rand = new Random(System.currentTimeMillis());
+    private static Random rand = new Random(System.currentTimeMillis());
     public double[] dna = new double[128];
 
     public void randomize() {
-        
         for (int i = 0; i < dna.length; i++) {
-            dna[i] = rand.nextDouble();
+            dna[i] = 200 * rand.nextDouble() - 100;
         }
     }
 
@@ -23,7 +22,7 @@ public class GANN {
             float h = (float) colorData[i * 3];
             float s = (float) colorData[i * 3 + 1];
             float v = (float) colorData[i * 3 + 2];
-
+            
             colors[i] = Color.getHSBColor(h, s, v);
         }
 
@@ -71,7 +70,7 @@ public class GANN {
         for (int i = 0; i < output_layer.length; i++) {
             double total = 0;
             for (int k = 0; k < hidden_layer.length; k++) {
-                output_layer[i] += hidden_layer[k] * weight_hidden_to_output[i][k];
+                total += hidden_layer[k] * weight_hidden_to_output[i][k];
             }
             output_layer[i] = sigmoid(total);
         }
