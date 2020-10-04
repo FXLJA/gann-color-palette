@@ -18,6 +18,8 @@ public class GeneticTrainer {
         this.trainingtestRatio = trainingtestRatio;
         this.maxPopulationSize = populationSize;
         this.mutationRate = mutationRate;
+        
+        initialize();
     }
     
     public void initialize() {
@@ -28,7 +30,12 @@ public class GeneticTrainer {
         }
     }
     
-    public void selection(){
+    public void nextGen() {
+        selection();
+        reproduction();
+    }
+    
+    private void selection(){
         if (bestANN == null) {
             bestANN = population.get(0);
             bestScore = calculateScore(bestANN);
@@ -70,8 +77,8 @@ public class GeneticTrainer {
         float[] a_hsb = new float[3];
         float[] b_hsb = new float[3];
         
-        Color.RGBtoHSB(a.getRed(), a.getBlue(), a.getGreen(), a_hsb);
-        Color.RGBtoHSB(b.getRed(), b.getBlue(), b.getGreen(), b_hsb);
+        Color.RGBtoHSB(a.getRed(), a.getGreen(), a.getBlue(), a_hsb);
+        Color.RGBtoHSB(b.getRed(), b.getGreen(), b.getBlue(), b_hsb);
         
         for(int i=0; i<3; i++){
             total += Math.abs(a_hsb[i] - b_hsb[i]);
@@ -80,7 +87,7 @@ public class GeneticTrainer {
         return total;
     }
     
-    public void reproduction() {
+    private void reproduction() {
         while(population.size() < maxPopulationSize) {
             population.add(bestANN.clone().mutate(mutationRate));
         }
