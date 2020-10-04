@@ -9,19 +9,19 @@ import java.util.Scanner;
 public class Dataset {
     private ArrayList<ColorData> dataList = new ArrayList<ColorData>();
     
-    public void loadDataset(String path) {
+    public void loadDataset(File path) {
         try {
-            Scanner sc = new Scanner(new File(path));
-            sc.useDelimiter(",");
+            Scanner sc = new Scanner(path);
+            sc.useDelimiter(",|\\r\\n");
             while (sc.hasNext()) {
                 ColorData c = new ColorData();
                 
-                c.mode = modeToIndex(sc.next());
-                c.warnaDominan = Color.decode(sc.next());
-                c.warnaTerang = Color.decode(sc.next());
-                c.warnaMid = Color.decode(sc.next());
-                c.warnaDark1 = Color.decode(sc.next());
-                c.warnaDark2 = Color.decode(sc.next());
+                c.mode = modeToIndex(sc.next().trim());
+                c.warnaDominan = Color.decode(sc.next().trim());
+                c.warnaTerang = Color.decode(sc.next().trim());
+                c.warnaMid = Color.decode(sc.next().trim());
+                c.warnaDark1 = Color.decode(sc.next().trim());
+                c.warnaDark2 = Color.decode(sc.next().trim());
                 
                 dataList.add(c);
             }  
