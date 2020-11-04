@@ -1,5 +1,7 @@
 package ColoringGANN;
 
+import java.awt.Color;
+
 public class ColourPickForm extends javax.swing.JFrame {
 
     public ColourPickForm() {
@@ -21,6 +23,7 @@ public class ColourPickForm extends javax.swing.JFrame {
         panelWarna4 = new ColoringGANN.PanelWarna();
         panelWarna5 = new ColoringGANN.PanelWarna();
         btn_trainingForm = new javax.swing.JButton();
+        btn_printHex = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(570, 480));
@@ -41,7 +44,7 @@ public class ColourPickForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_save);
-        btn_save.setBounds(10, 410, 120, 23);
+        btn_save.setBounds(10, 410, 120, 22);
 
         lbl_tema.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lbl_tema.setText("Pilih Tema :");
@@ -55,7 +58,7 @@ public class ColourPickForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_generate);
-        btn_generate.setBounds(10, 380, 120, 23);
+        btn_generate.setBounds(10, 380, 120, 22);
         getContentPane().add(panelWarna1);
         panelWarna1.setBounds(140, 390, 80, 40);
         getContentPane().add(panelWarna2);
@@ -77,6 +80,16 @@ public class ColourPickForm extends javax.swing.JFrame {
         getContentPane().add(btn_trainingForm);
         btn_trainingForm.setBounds(430, 20, 120, 30);
 
+        btn_printHex.setText("Print Hex");
+        btn_printHex.setToolTipText("");
+        btn_printHex.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_printHexActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_printHex);
+        btn_printHex.setBounds(320, 20, 100, 30);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
@@ -92,8 +105,20 @@ public class ColourPickForm extends javax.swing.JFrame {
         Main.trainingFrame.show();
     }//GEN-LAST:event_btn_trainingFormActionPerformed
 
+    private void btn_printHexActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_printHexActionPerformed
+        Color rgbColor = colorChooser.getColor();
+        
+        String RValue = Integer.toHexString(rgbColor.getRed()).toUpperCase();
+        String GValue = Integer.toHexString(rgbColor.getGreen()).toUpperCase();
+        String BValue = Integer.toHexString(rgbColor.getBlue()).toUpperCase();
+        String Hex = RValue + GValue + BValue;
+        
+        System.out.println(Hex);
+    }//GEN-LAST:event_btn_printHexActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_generate;
+    private javax.swing.JButton btn_printHex;
     private javax.swing.JButton btn_save;
     private javax.swing.JButton btn_trainingForm;
     private javax.swing.JComboBox<String> cmb_tema;

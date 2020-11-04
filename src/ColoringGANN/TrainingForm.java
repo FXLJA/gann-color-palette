@@ -44,11 +44,11 @@ public class TrainingForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_load);
-        btn_load.setBounds(20, 20, 80, 23);
+        btn_load.setBounds(20, 20, 80, 22);
 
         btn_save.setText("Save");
         getContentPane().add(btn_save);
-        btn_save.setBounds(110, 20, 90, 23);
+        btn_save.setBounds(110, 20, 90, 22);
 
         btn_generate.setText("Generate");
         btn_generate.addActionListener(new java.awt.event.ActionListener() {
@@ -59,7 +59,7 @@ public class TrainingForm extends javax.swing.JFrame {
         getContentPane().add(btn_generate);
         btn_generate.setBounds(270, 180, 90, 30);
         getContentPane().add(sl_trainingRatio);
-        sl_trainingRatio.setBounds(160, 60, 210, 22);
+        sl_trainingRatio.setBounds(160, 60, 210, 11);
 
         lbl_trainingRatio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lbl_trainingRatio.setText("Training/Test Ratio");
@@ -74,7 +74,7 @@ public class TrainingForm extends javax.swing.JFrame {
         sl_populationSize.setMinimum(100);
         sl_populationSize.setValue(5000);
         getContentPane().add(sl_populationSize);
-        sl_populationSize.setBounds(160, 100, 210, 22);
+        sl_populationSize.setBounds(160, 100, 210, 11);
 
         lbl_populationSize.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lbl_populationSize.setText("Population Size");
@@ -96,7 +96,7 @@ public class TrainingForm extends javax.swing.JFrame {
 
         sl_mutationRate.setValue(10);
         getContentPane().add(sl_mutationRate);
-        sl_mutationRate.setBounds(160, 140, 210, 22);
+        sl_mutationRate.setBounds(160, 140, 210, 11);
 
         btn_autoTrain1.setText("Auto Train");
         btn_autoTrain1.addActionListener(new java.awt.event.ActionListener() {
