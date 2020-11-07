@@ -5,8 +5,8 @@ import java.awt.Color;
 
 public class GANN {
     private static Random rand = new Random(System.currentTimeMillis());
-    double[] input_layer = new double[3];
-    double[] hidden_layer = new double[6];
+    double[] input_layer = new double[4];
+    double[] hidden_layer = new double[16];
     double[] output_layer = new double[12];
     public double[] dna = new double[input_layer.length * hidden_layer.length + hidden_layer.length * output_layer.length];
 
@@ -36,9 +36,10 @@ public class GANN {
         float[] color_hsb = new float[3];
         Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), color_hsb);
 
-        input_layer[0] = color_hsb[0];
-        input_layer[1] = color_hsb[1];
-        input_layer[2] = color_hsb[2];
+        input_layer[0] = mode;
+        input_layer[1] = color_hsb[0];
+        input_layer[2] = color_hsb[1];
+        input_layer[3] = color_hsb[2];
 
         double[][] weight_input_to_hidden = new double[hidden_layer.length][input_layer.length];
         double[][] weight_hidden_to_output = new double[output_layer.length][hidden_layer.length];

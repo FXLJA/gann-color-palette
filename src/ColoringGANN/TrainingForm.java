@@ -32,6 +32,7 @@ public class TrainingForm extends javax.swing.JFrame {
         btn_autoTrain1 = new javax.swing.JButton();
         btn_nextGen1 = new javax.swing.JButton();
 
+        setTitle("Color Gun - Training");
         setMinimumSize(new java.awt.Dimension(500, 260));
         setPreferredSize(new java.awt.Dimension(500, 260));
         setResizable(false);

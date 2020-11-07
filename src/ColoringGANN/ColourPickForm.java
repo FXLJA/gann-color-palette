@@ -22,6 +22,7 @@ public class ColourPickForm extends javax.swing.JFrame {
         HexField = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Color Gun");
         setMinimumSize(new java.awt.Dimension(570, 480));
         setPreferredSize(new java.awt.Dimension(570, 480));
         setResizable(false);
