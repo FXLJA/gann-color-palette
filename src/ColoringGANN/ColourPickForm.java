@@ -23,6 +23,7 @@ public class ColourPickForm extends javax.swing.JFrame {
         btn_trainingForm = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Color Gun");
         setMinimumSize(new java.awt.Dimension(570, 480));
         setPreferredSize(new java.awt.Dimension(570, 480));
         setResizable(false);
