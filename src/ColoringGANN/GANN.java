@@ -2,6 +2,13 @@ package ColoringGANN;
 
 import java.util.Random;
 import java.awt.Color;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.Scanner;
+import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 
 public class GANN {
     private static Random rand = new Random(System.currentTimeMillis());
@@ -13,6 +20,69 @@ public class GANN {
     public void randomize() {
         for (int i = 0; i < dna.length; i++) {
             dna[i] = rand.nextGaussian() * 2 - 1;
+        }
+    }
+    
+    public boolean saveDNA(File path) {
+        try {
+            FileWriter myWriter = new FileWriter(path);
+            for (int i=0; i<dna.length; i++) {
+                myWriter.write("" + dna[i]);
+                if(i < dna.length-1) {
+                    myWriter.write(",");
+                }
+            }
+            myWriter.close();
+            return true;
+        } catch (IOException e) {
+            JOptionPane.showMessageDialog(null, e.getMessage(), "Error!", JOptionPane.ERROR_MESSAGE);
+            return false;
+        }
+    }
+    
+    public boolean loadDNA(File path) {
+        try {
+            Scanner sc = new Scanner(path);
+            sc.useDelimiter(",");
+            
+            double[] dna = new double[this.dna.length];
+            
+            int i=0;
+            while (sc.hasNext()) {
+                if (i == this.dna.length) {
+                   JOptionPane.showMessageDialog(null, "Dna size does not match!", "Error!", JOptionPane.ERROR_MESSAGE);
+                   sc.close();
+                   return false;
+                }
+                
+                double d = Double.parseDouble(sc.next().trim());
+                dna[i] = d;
+                i++;
+            }
+            sc.close();
+            
+            if (i < this.dna.length) {
+                JOptionPane.showMessageDialog(null, "Dna size does not match!", "Error!", JOptionPane.ERROR_MESSAGE);
+                return false;
+            }
+            
+            copyDNA(dna);
+            
+            return true;
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+            return false;
+        } 
+    }
+    
+    public void copyDNA(double[] dna) {
+        if(dna.length != this.dna.length) {
+            JOptionPane.showMessageDialog(null, "Dna size does not match!", "Error!", JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        
+        for(int i=0; i<dna.length; i++) {
+            this.dna[i] = dna[i];
         }
     }
 
