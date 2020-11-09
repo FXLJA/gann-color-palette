@@ -129,7 +129,7 @@ public class ColourPickForm extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_saveActionPerformed
 
     private void btn_generateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_generateActionPerformed
-        GANN bestANN = Main.trainingFrame.geneticTrainer.bestANN;
+        GANN bestANN = Main.trainingFrame.geneticTrainer.bestANNTest;
 
         if (bestANN == null) {
             JOptionPane.showMessageDialog(null, "Load a dataset and train the GANN first", "Error!", JOptionPane.WARNING_MESSAGE);
