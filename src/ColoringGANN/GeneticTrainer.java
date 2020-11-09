@@ -1,6 +1,7 @@
 package ColoringGANN;
 
 import java.awt.Color;
+import java.io.File;
 import java.util.ArrayList;
 
 public class GeneticTrainer {
@@ -9,10 +10,13 @@ public class GeneticTrainer {
     public float mutationRate;
     
     public double bestScore;
-    public GANN bestANN;
+    public double bestTestScore;
+    public GANN bestANNTraining;
+    public GANN bestANNTest;
     
     ArrayList<GANN> population = new ArrayList<>();
-    Dataset dataset = new Dataset();
+    Dataset dataset_training = new Dataset();
+    Dataset dataset_test = new Dataset();
 
     public GeneticTrainer(float trainingtestRatio, int populationSize, float mutationRate) {
         this.trainingtestRatio = trainingtestRatio;
@@ -30,45 +34,127 @@ public class GeneticTrainer {
         }
     }
     
+    public void loadDataset(File path) {
+        dataset_training.loadDataset(path);
+        
+        int total_test_size = (int) (dataset_training.size() * (1-trainingtestRatio));
+        
+        for (int i=0; i<total_test_size; i++) {
+            dataset_test.addData(dataset_training.removeRandomData());
+        }
+        
+        bestANNTraining = population.get(0);
+        bestANNTest = bestANNTraining;
+
+        bestScore = calculateTrainingScore(bestANNTraining);
+        bestTestScore = calculateTestScore(bestANNTest);
+    }
+    
+    public boolean loadGANN(File path) {
+        GANN g = new GANN();
+        
+        boolean isSucess = g.loadDNA(path);
+        
+        if(isSucess) {
+            population.clear();
+            population.add(g);
+            
+            bestANNTraining = population.get(0);
+            bestANNTest = bestANNTraining;
+            
+            reproduction();
+            
+            if(dataset_training.size() + dataset_test.size() != 0) {
+                bestScore = calculateTrainingScore(bestANNTraining);
+                bestTestScore = calculateTestScore(bestANNTest);
+            }
+            
+            return true;
+        }
+        return false;
+    }
+    
     public void nextGen() {
         selection();
         reproduction();
     }
     
-    private void selection(){
-        if (bestANN == null) {
-            bestANN = population.get(0);
-            bestScore = calculateScore(bestANN);
-        }
-        
+    public void selection(){
         for (int i=1; i<population.size(); i++) {
-            GANN ann = population.get(i);
-            double score = calculateScore(ann);
-            if (score < bestScore) {
-                bestANN = ann;
-                bestScore = score;
-            }
+            evaluateGANNAt(i);
         }
         
-        population.clear();
-        population.add(bestANN);
+        keepBest();
     }
     
-    private double calculateScore(GANN gann){
+    public void reproduction() {
+        while(population.size() < maxPopulationSize) {
+            population.add(bestANNTraining.clone().mutate(mutationRate));
+        }
+    }
+    
+    public void evaluateGANNAt(int index) {
+        GANN ann = population.get(index);
+        double score = calculateTrainingScore(ann);
+        if (score < bestScore) {
+            bestANNTraining = ann;
+            bestScore = score;
+        }
+
+        double testScore = calculateTestScore(ann);
+        if (testScore < bestTestScore) {
+            bestANNTest = ann;
+            bestTestScore = testScore;
+        }
+    }
+    
+    public void keepBest() {
+        population.clear();
+        population.add(bestANNTest);
+    }
+    
+    private double calculateTrainingScore(GANN gann){
         double totalScore = 0;
         
-        for(int i=0; i<dataset.size(); i++) {
-            ColorData c = dataset.get(i);
+        for(int i=0; i<dataset_training.size(); i++) {
+            ColorData c = dataset_training.get(i);
             
             Color[] colors = gann.generateColor(c.mode, c.warnaDominan);
             
-            totalScore += compareColorDiff(colors[0], c.warnaTerang);
-            totalScore += compareColorDiff(colors[1], c.warnaMid);
-            totalScore += compareColorDiff(colors[2], c.warnaDark1);
-            totalScore += compareColorDiff(colors[3], c.warnaDark2);
+            double score = 0;
+            score += compareColorDiff(colors[0], c.warnaTerang);
+            score += compareColorDiff(colors[1], c.warnaMid);
+            score += compareColorDiff(colors[2], c.warnaDark1);
+            score += compareColorDiff(colors[3], c.warnaDark2);
+            
+            score *= 0.25;
+            
+            totalScore += score;
         }
         
-        return totalScore;
+        return totalScore / dataset_training.size();
+    }
+    
+    private double calculateTestScore(GANN gann){
+        double totalScore = 0;
+        
+        for(int i=0; i<dataset_test.size(); i++) {
+            ColorData c = dataset_test.get(i);
+            
+            Color[] colors = gann.generateColor(c.mode, c.warnaDominan);
+            
+            double score = 0;
+            score += compareColorDiff(colors[0], c.warnaTerang);
+            score += compareColorDiff(colors[1], c.warnaMid);
+            score += compareColorDiff(colors[2], c.warnaDark1);
+            score += compareColorDiff(colors[3], c.warnaDark2);
+            
+            score *= 0.25;
+            
+            totalScore += score;
+        }
+        
+        return totalScore / dataset_test.size();
     }
     
     private double compareColorDiff(Color a, Color b) {
@@ -83,13 +169,8 @@ public class GeneticTrainer {
         for(int i=0; i<3; i++){
             total += Math.abs(a_hsb[i] - b_hsb[i]);
         }
+        total /= 3;
         
         return total;
-    }
-    
-    private void reproduction() {
-        while(population.size() < maxPopulationSize) {
-            population.add(bestANN.clone().mutate(mutationRate));
-        }
     }
 }
