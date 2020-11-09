@@ -4,10 +4,12 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class Dataset {
     private ArrayList<ColorData> dataList = new ArrayList<ColorData>();
+    private static Random rand = new Random(System.currentTimeMillis());
     
     public void loadDataset(File path) {
         try {
@@ -46,6 +48,14 @@ public class Dataset {
     
     public ColorData get(int index) {
         return dataList.get(index);
+    }
+    
+    public void addData(ColorData data) {
+        dataList.add(data);
+    }
+    
+    public ColorData removeRandomData() {
+        return dataList.remove(rand.nextInt(dataList.size()));
     }
     
     public int size() {
