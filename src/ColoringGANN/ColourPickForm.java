@@ -49,8 +49,9 @@ public class ColourPickForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Color Gun");
-        setMinimumSize(new java.awt.Dimension(570, 480));
-        setPreferredSize(new java.awt.Dimension(570, 480));
+        setMaximumSize(new java.awt.Dimension(600, 500));
+        setMinimumSize(new java.awt.Dimension(600, 500));
+        setPreferredSize(new java.awt.Dimension(600, 500));
         getContentPane().setLayout(null);
 
         cmb_tema.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Professional", "Colourful", "Monochrome" }));
@@ -66,7 +67,7 @@ public class ColourPickForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_save);
-        btn_save.setBounds(10, 410, 110, 23);
+        btn_save.setBounds(10, 410, 110, 22);
 
         lbl_tema.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lbl_tema.setText("Pilih Tema :");
@@ -80,7 +81,7 @@ public class ColourPickForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_generate);
-        btn_generate.setBounds(10, 380, 110, 23);
+        btn_generate.setBounds(10, 380, 110, 22);
 
         btn_trainingForm.setText("Training Form");
         btn_trainingForm.setToolTipText("");
