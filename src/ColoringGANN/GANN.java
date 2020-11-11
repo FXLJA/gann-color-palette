@@ -13,7 +13,7 @@ import javax.swing.JOptionPane;
 public class GANN {
     private static Random rand = new Random(System.currentTimeMillis());
     double[] input_layer = new double[6];
-    double[] hidden_layer = new double[24];
+    double[] hidden_layer = new double[48];
     double[] output_layer = new double[12];
     public double[] dna = new double[input_layer.length * hidden_layer.length + hidden_layer.length * output_layer.length];
 
