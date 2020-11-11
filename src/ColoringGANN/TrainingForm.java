@@ -98,7 +98,7 @@ public class TrainingForm extends javax.swing.JFrame {
         getContentPane().add(btn_reset);
         btn_reset.setBounds(160, 20, 90, 23);
 
-        sl_trainingRatio.setValue(66);
+        sl_trainingRatio.setValue(99);
         getContentPane().add(sl_trainingRatio);
         sl_trainingRatio.setBounds(160, 60, 210, 22);
 

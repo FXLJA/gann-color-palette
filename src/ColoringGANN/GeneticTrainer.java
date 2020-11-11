@@ -98,13 +98,12 @@ public class GeneticTrainer {
         double score = calculateTrainingScore(ann);
         if (score < bestScore) {
             bestANNTraining = ann;
-            bestScore = score;
-        }
-
-        double testScore = calculateTestScore(ann);
-        if (testScore < bestTestScore) {
-            bestANNTest = ann;
+            
+            double testScore = calculateTestScore(ann);
             bestTestScore = testScore;
+            bestANNTest = ann;
+            
+            bestScore = score;
         }
     }
     
@@ -166,10 +165,12 @@ public class GeneticTrainer {
         Color.RGBtoHSB(a.getRed(), a.getGreen(), a.getBlue(), a_hsb);
         Color.RGBtoHSB(b.getRed(), b.getGreen(), b.getBlue(), b_hsb);
         
-        for(int i=0; i<3; i++){
-            total += Math.abs(a_hsb[i] - b_hsb[i]);
-        }
-        total /= 3;
+        
+        total += Math.abs(a_hsb[0] - b_hsb[0]) * 3;
+        total += Math.abs(a_hsb[1] - b_hsb[1]);
+        total += Math.abs(a_hsb[2] - b_hsb[2]);
+        
+        total /= 6;
         
         return total;
     }
