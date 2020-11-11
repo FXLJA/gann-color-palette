@@ -35,9 +35,9 @@ public class Dataset {
     
     private int modeToIndex(String mode){
         switch(mode) {
-            case "p":
+            case "a":
                 return 0;
-            case "c":
+            case "t":
                 return 1;
             case "m":
                 return 2;
