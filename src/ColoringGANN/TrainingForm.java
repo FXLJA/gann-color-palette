@@ -13,6 +13,8 @@ import javax.swing.event.ChangeListener;
 public class TrainingForm extends javax.swing.JFrame {
     public GeneticTrainer geneticTrainer;
     
+    int GenerationPassed = 0;
+    
     SwingWorker worker;
         
     public TrainingForm() {
@@ -65,7 +67,6 @@ public class TrainingForm extends javax.swing.JFrame {
         ed_mutationRate = new javax.swing.JTextField();
         lbl_mutationRate = new javax.swing.JLabel();
         sl_mutationRate = new javax.swing.JSlider();
-        btn_autoTrain1 = new javax.swing.JButton();
         btn_nextGen1 = new javax.swing.JButton();
         ed_trainingRatio = new javax.swing.JTextField();
         lbl_scoreTraining = new javax.swing.JLabel();
@@ -73,11 +74,13 @@ public class TrainingForm extends javax.swing.JFrame {
         btn_saveGANN = new javax.swing.JButton();
         btn_loadGANN = new javax.swing.JButton();
         jProgressBar1 = new javax.swing.JProgressBar();
+        cb_autoTrain = new javax.swing.JCheckBox();
+        lbl_generation = new javax.swing.JLabel();
 
         setTitle("Color Gun - Training");
-        setMaximumSize(new java.awt.Dimension(600, 500));
-        setMinimumSize(new java.awt.Dimension(600, 500));
-        setPreferredSize(new java.awt.Dimension(600, 500));
+        setMaximumSize(new java.awt.Dimension(520, 340));
+        setMinimumSize(new java.awt.Dimension(520, 340));
+        setPreferredSize(new java.awt.Dimension(520, 340));
         setResizable(false);
         getContentPane().setLayout(null);
 
@@ -97,7 +100,7 @@ public class TrainingForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_reset);
-        btn_reset.setBounds(160, 20, 90, 23);
+        btn_reset.setBounds(150, 20, 90, 23);
 
         sl_trainingRatio.setValue(99);
         getContentPane().add(sl_trainingRatio);
@@ -142,16 +145,6 @@ public class TrainingForm extends javax.swing.JFrame {
         getContentPane().add(sl_mutationRate);
         sl_mutationRate.setBounds(160, 140, 210, 22);
 
-        btn_autoTrain1.setText("+100 Generation");
-        btn_autoTrain1.setEnabled(false);
-        btn_autoTrain1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_autoTrain1ActionPerformed(evt);
-            }
-        });
-        getContentPane().add(btn_autoTrain1);
-        btn_autoTrain1.setBounds(150, 180, 120, 30);
-
         btn_nextGen1.setText("Next Gen");
         btn_nextGen1.setEnabled(false);
         btn_nextGen1.addActionListener(new java.awt.event.ActionListener() {
@@ -186,7 +179,7 @@ public class TrainingForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_saveGANN);
-        btn_saveGANN.setBounds(380, 20, 90, 23);
+        btn_saveGANN.setBounds(370, 20, 100, 23);
 
         btn_loadGANN.setText("Load GANN");
         btn_loadGANN.addActionListener(new java.awt.event.ActionListener() {
@@ -195,12 +188,21 @@ public class TrainingForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_loadGANN);
-        btn_loadGANN.setBounds(270, 20, 90, 23);
+        btn_loadGANN.setBounds(260, 20, 100, 23);
 
         jProgressBar1.setMaximum(99);
         jProgressBar1.setStringPainted(true);
         getContentPane().add(jProgressBar1);
         jProgressBar1.setBounds(20, 240, 450, 30);
+
+        cb_autoTrain.setText("Auto-Train");
+        getContentPane().add(cb_autoTrain);
+        cb_autoTrain.setBounds(140, 180, 100, 30);
+
+        lbl_generation.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
+        lbl_generation.setText("Generation Passed : 0");
+        getContentPane().add(lbl_generation);
+        lbl_generation.setBounds(24, 214, 190, 20);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -219,7 +221,6 @@ public class TrainingForm extends javax.swing.JFrame {
             sl_trainingRatio.setEnabled(false);
             btn_saveGANN.setEnabled(true);
             btn_nextGen1.setEnabled(true);
-            btn_autoTrain1.setEnabled(true);
         }
     }//GEN-LAST:event_btn_loadActionPerformed
     
@@ -236,12 +237,6 @@ public class TrainingForm extends javax.swing.JFrame {
             worker.execute();
     }//GEN-LAST:event_btn_nextGen1ActionPerformed
 
-    private void btn_autoTrain1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_autoTrain1ActionPerformed
-        if(worker == null || worker.isDone())
-            worker = new ProgressWorker();
-            worker.execute();
-    }//GEN-LAST:event_btn_autoTrain1ActionPerformed
-
     private void btn_resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resetActionPerformed
         int result = JOptionPane.showConfirmDialog(null, "Do you want to reset?", "Reset?", JOptionPane.YES_NO_OPTION);
         
@@ -252,7 +247,6 @@ public class TrainingForm extends javax.swing.JFrame {
         
         btn_saveGANN.setEnabled(false);
         btn_nextGen1.setEnabled(false);
-        btn_autoTrain1.setEnabled(false);
         sl_trainingRatio.setEnabled(true);
         
         sl_trainingRatio.setValue(66);
@@ -269,7 +263,7 @@ public class TrainingForm extends javax.swing.JFrame {
              boolean IsSucess = geneticTrainer.loadGANN(selectedFile);
 
             if(IsSucess) {
-                JOptionPane.showMessageDialog(null, "DNA berhasil diload!", "Message", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "DNA berhasil diload!", "Message", JOptionPane.INFORMATION_MESSAGE);
                 btn_saveGANN.setEnabled(true);
                 lbl_scoreTest.setText(String.format("Test Score : %.4f%%", (1-geneticTrainer.bestTestScore)*100));
                 lbl_scoreTraining.setText(String.format("Training Score : %.4f%%", (1-geneticTrainer.bestScore)*100));
@@ -286,7 +280,7 @@ public class TrainingForm extends javax.swing.JFrame {
             boolean IsSucess = geneticTrainer.bestANNTest.saveDNA(selectedFile);
             
             if(IsSucess) {
-                JOptionPane.showMessageDialog(null, "DNA berhasil disimpan!", "Message", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "DNA berhasil disimpan!", "Message", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }//GEN-LAST:event_btn_saveGANNActionPerformed
@@ -294,54 +288,29 @@ public class TrainingForm extends javax.swing.JFrame {
     private class GenWorker extends SwingWorker<Void, Integer> {
         @Override
         protected Void doInBackground() throws Exception {
-            publish(0);
-            
-            int population_size = geneticTrainer.population.size();
-            for (int i=1; i<geneticTrainer.population.size(); i++) {
-                geneticTrainer.evaluateGANNAt(i);
-                publish(i*100/population_size);
-            }
-            
-            geneticTrainer.keepBest();
-            geneticTrainer.reproduction();
-            return null;
-        }
-        
-        @Override
-        protected void process(List<Integer> chunks) {
-            jProgressBar1.setValue(chunks.get(chunks.size() - 1));
-            super.process(chunks);
-        }
-
-        @Override
-        protected void done() {
-            jProgressBar1.setValue(100);
-            
-            lbl_scoreTest.setText(String.format("Test Score : %.4f%%", (1-geneticTrainer.bestTestScore)*100));
-            lbl_scoreTraining.setText(String.format("Training Score : %.4f%%", (1-geneticTrainer.bestScore)*100));
-        }
-    }
-    
-    private class ProgressWorker extends SwingWorker<Void, Integer> {
-        
-        @Override
-        protected Void doInBackground() throws Exception {
-            publish(0);
-            for (int i = 0; i < 100; i++) {
-                geneticTrainer.nextGen();
+            do {
+                publish(0);
                 
-                publish(i+1);
-            }
-            done();
+                geneticTrainer.keepBest();
+                geneticTrainer.reproduction();
+                
+                int population_size = geneticTrainer.population.size();
+                for (int i=1; i<geneticTrainer.population.size(); i++) {
+                    geneticTrainer.evaluateGANNAt(i);
+                    publish(i*100/population_size);
+                }
+
+                GenerationPassed += 1;
+                lbl_generation.setText("Generation Passed : " + GenerationPassed);
+                lbl_scoreTest.setText(String.format("Test Score : %.4f%%", (1-geneticTrainer.bestTestScore)*100));
+                lbl_scoreTraining.setText(String.format("Training Score : %.4f%%", (1-geneticTrainer.bestScore)*100));
+            } while (cb_autoTrain.isSelected());
             return null;
         }
-
+        
         @Override
         protected void process(List<Integer> chunks) {
             jProgressBar1.setValue(chunks.get(chunks.size() - 1));
-            lbl_scoreTest.setText(String.format("Test Score : %.4f%%", (1-geneticTrainer.bestTestScore)*100));
-            lbl_scoreTraining.setText(String.format("Training Score : %.4f%%", (1-geneticTrainer.bestScore)*100));
-            
             super.process(chunks);
         }
 
@@ -352,16 +321,17 @@ public class TrainingForm extends javax.swing.JFrame {
     }
     
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_autoTrain1;
     private javax.swing.JButton btn_load;
     private javax.swing.JButton btn_loadGANN;
     private javax.swing.JButton btn_nextGen1;
     private javax.swing.JButton btn_reset;
     private javax.swing.JButton btn_saveGANN;
+    private javax.swing.JCheckBox cb_autoTrain;
     private javax.swing.JTextField ed_mutationRate;
     private javax.swing.JTextField ed_populationSize;
     private javax.swing.JTextField ed_trainingRatio;
     private javax.swing.JProgressBar jProgressBar1;
+    private javax.swing.JLabel lbl_generation;
     private javax.swing.JLabel lbl_mutationRate;
     private javax.swing.JLabel lbl_populationSize;
     private javax.swing.JLabel lbl_scoreTest;
