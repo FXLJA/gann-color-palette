@@ -86,8 +86,8 @@
     </Component>
     <Component class="javax.swing.JSlider" name="sl_populationSize">
       <Properties>
-        <Property name="maximum" type="int" value="1000"/>
-        <Property name="minimum" type="int" value="100"/>
+        <Property name="maximum" type="int" value="2000"/>
+        <Property name="minimum" type="int" value="10"/>
         <Property name="value" type="int" value="200"/>
       </Properties>
       <Constraints>
@@ -152,6 +152,8 @@
     </Component>
     <Component class="javax.swing.JSlider" name="sl_mutationRate">
       <Properties>
+        <Property name="minimum" type="int" value="1"/>
+        <Property name="minorTickSpacing" type="int" value="1"/>
         <Property name="value" type="int" value="10"/>
       </Properties>
       <Constraints>

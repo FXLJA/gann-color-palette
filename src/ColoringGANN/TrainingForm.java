@@ -88,7 +88,7 @@ public class TrainingForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_load);
-        btn_load.setBounds(20, 20, 120, 22);
+        btn_load.setBounds(20, 20, 120, 23);
 
         btn_reset.setText("Reset");
         btn_reset.addActionListener(new java.awt.event.ActionListener() {
@@ -97,22 +97,22 @@ public class TrainingForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_reset);
-        btn_reset.setBounds(160, 20, 90, 22);
+        btn_reset.setBounds(160, 20, 90, 23);
 
         sl_trainingRatio.setValue(99);
         getContentPane().add(sl_trainingRatio);
-        sl_trainingRatio.setBounds(160, 60, 210, 11);
+        sl_trainingRatio.setBounds(160, 60, 210, 22);
 
         lbl_trainingRatio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lbl_trainingRatio.setText("Training/Test Ratio");
         getContentPane().add(lbl_trainingRatio);
         lbl_trainingRatio.setBounds(20, 60, 130, 20);
 
-        sl_populationSize.setMaximum(1000);
-        sl_populationSize.setMinimum(100);
+        sl_populationSize.setMaximum(2000);
+        sl_populationSize.setMinimum(10);
         sl_populationSize.setValue(200);
         getContentPane().add(sl_populationSize);
-        sl_populationSize.setBounds(160, 100, 210, 11);
+        sl_populationSize.setBounds(160, 100, 210, 22);
 
         lbl_populationSize.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lbl_populationSize.setText("Population Size");
@@ -136,9 +136,11 @@ public class TrainingForm extends javax.swing.JFrame {
         getContentPane().add(lbl_mutationRate);
         lbl_mutationRate.setBounds(20, 140, 110, 20);
 
+        sl_mutationRate.setMinimum(1);
+        sl_mutationRate.setMinorTickSpacing(1);
         sl_mutationRate.setValue(10);
         getContentPane().add(sl_mutationRate);
-        sl_mutationRate.setBounds(160, 140, 210, 11);
+        sl_mutationRate.setBounds(160, 140, 210, 22);
 
         btn_autoTrain1.setText("+100 Generation");
         btn_autoTrain1.setEnabled(false);
@@ -184,7 +186,7 @@ public class TrainingForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_saveGANN);
-        btn_saveGANN.setBounds(380, 20, 90, 22);
+        btn_saveGANN.setBounds(380, 20, 90, 23);
 
         btn_loadGANN.setText("Load GANN");
         btn_loadGANN.addActionListener(new java.awt.event.ActionListener() {
@@ -193,7 +195,7 @@ public class TrainingForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_loadGANN);
-        btn_loadGANN.setBounds(270, 20, 90, 22);
+        btn_loadGANN.setBounds(270, 20, 90, 23);
 
         jProgressBar1.setMaximum(99);
         jProgressBar1.setStringPainted(true);
