@@ -47,11 +47,16 @@ public class ColourPickForm extends javax.swing.JFrame {
         panelWarna4 = new ColoringGANN.PanelWarna();
         panelWarna5 = new ColoringGANN.PanelWarna();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Color Gun");
         setMaximumSize(new java.awt.Dimension(600, 500));
         setMinimumSize(new java.awt.Dimension(600, 500));
         setPreferredSize(new java.awt.Dimension(600, 500));
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
         getContentPane().setLayout(null);
 
         cmb_tema.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Professional", "Colourful", "Monochrome" }));
@@ -67,7 +72,7 @@ public class ColourPickForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_save);
-        btn_save.setBounds(10, 410, 110, 22);
+        btn_save.setBounds(10, 410, 110, 23);
 
         lbl_tema.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lbl_tema.setText("Pilih Tema :");
@@ -81,7 +86,7 @@ public class ColourPickForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_generate);
-        btn_generate.setBounds(10, 380, 110, 22);
+        btn_generate.setBounds(10, 380, 110, 23);
 
         btn_trainingForm.setText("Training Form");
         btn_trainingForm.setToolTipText("");
@@ -147,6 +152,16 @@ public class ColourPickForm extends javax.swing.JFrame {
     private void btn_trainingFormActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_trainingFormActionPerformed
         Main.trainingFrame.show();
     }//GEN-LAST:event_btn_trainingFormActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        int result = JOptionPane.showConfirmDialog(this, "Do you want to Quit?", "Quit?", JOptionPane.YES_NO_OPTION);
+        if (result == JOptionPane.YES_OPTION) {
+            setVisible(false);
+            dispose();
+            
+            System.exit(0);
+        }
+    }//GEN-LAST:event_formWindowClosing
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_generate;
