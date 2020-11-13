@@ -192,8 +192,8 @@ public class GANN {
         
         for (int i = 0; i < dna.length; i++) {
             if(rand.nextFloat()*10 < mutationRate) {
-                this.dna[i] = rand.nextGaussian() * 10;
-				hasMutate = true;
+                this.dna[i] = rand.nextGaussian();
+		hasMutate = true;
             }
         }
         
