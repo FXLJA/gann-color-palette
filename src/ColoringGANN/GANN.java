@@ -165,10 +165,17 @@ public class GANN {
     }
     
     public GANN mutate(float mutationRate) {
+        boolean hasMutate = false;
+        
         for (int i = 0; i < dna.length; i++) {
             if(rand.nextFloat() < mutationRate) {
                 this.dna[i] = rand.nextGaussian();
+                hasMutate = true;
             }
+        }
+        
+        if (!hasMutate) {
+            mutate(mutationRate);
         }
         
         return this;
