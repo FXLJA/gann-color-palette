@@ -93,27 +93,24 @@ public class GANN {
         double[] colorData = fowardPropagation(mode, c);
 
         for (int i = 0; i < 4; i++) {
-            float h = (float) colorData[i * 3];
-            float s = (float) colorData[i * 3 + 1];
-            float v = (float) colorData[i * 3 + 2];
+            float r = (float) colorData[i * 3];
+            float g = (float) colorData[i * 3 + 1];
+            float b = (float) colorData[i * 3 + 2];
             
-            colors[i] = Color.getHSBColor(h, s, v);
+            colors[i] = new Color(r, g, b);
         }
 
         return colors;
     }
 
     private double[] fowardPropagation(int mode, Color c) {
-        float[] color_hsb = new float[3];
-        Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), color_hsb);
-
         input_layer[0] = (mode == 0) ? 1 : 0;
         input_layer[1] = (mode == 1) ? 1 : 0;
         input_layer[2] = (mode == 2) ? 1 : 0;
         
-        input_layer[3] = color_hsb[0];
-        input_layer[4] = color_hsb[1];
-        input_layer[5] = color_hsb[2];
+        input_layer[3] = c.getRed()/255.0;
+        input_layer[4] = c.getGreen()/255.0;
+        input_layer[5] = c.getBlue()/255.0;
 
         
         double[][] weight_input_to_hidden = new double[hidden_layer.length][input_layer.length];
