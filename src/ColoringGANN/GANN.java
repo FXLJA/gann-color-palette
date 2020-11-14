@@ -12,9 +12,9 @@ import javax.swing.JOptionPane;
 
 public class GANN {
     private static Random rand = new Random(System.currentTimeMillis());
-    double[] input_layer = new double[6];
+    double[] input_layer = new double[7];
     double[] hidden_layer = new double[48];
-    double[] output_layer = new double[12];
+    double[] output_layer = new double[16];
     public double[] dna = new double[input_layer.length * hidden_layer.length + hidden_layer.length * output_layer.length];
 
     public void randomize() {
@@ -92,9 +92,15 @@ public class GANN {
         double[] colorData = fowardPropagation(mode, c);
 
         for (int i = 0; i < 4; i++) {
-            float h = (float) colorData[i * 3];
-            float s = (float) colorData[i * 3 + 1];
-            float v = (float) colorData[i * 3 + 2];
+            double hx = colorData[i * 3];
+            double hy = colorData[i * 3 + 1];
+            float s = (float) colorData[i * 3 + 2];
+            float v = (float) colorData[i * 3 + 3];
+            
+            float h = (float) (Math.atan2(hy, hx)/Math.PI);
+            if(h < 0) {
+                h += 1.0f;
+            }
             
             colors[i] = Color.getHSBColor(h, s, v);
         }
@@ -110,9 +116,10 @@ public class GANN {
         input_layer[1] = (mode == 1) ? 1 : 0;
         input_layer[2] = (mode == 2) ? 1 : 0;
         
-        input_layer[3] = color_hsb[0];
-        input_layer[4] = color_hsb[1];
-        input_layer[5] = color_hsb[2];
+        input_layer[3] = Math.cos(color_hsb[0] * 2 * Math.PI);
+        input_layer[4] = Math.sin(color_hsb[0] * 2 * Math.PI);
+        input_layer[5] = color_hsb[1];
+        input_layer[6] = color_hsb[2];
 
         double[][] weight_input_to_hidden = new double[hidden_layer.length][input_layer.length];
         double[][] weight_hidden_to_output = new double[output_layer.length][hidden_layer.length];
