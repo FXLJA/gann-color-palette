@@ -7,7 +7,7 @@ import java.util.ArrayList;
 public class GeneticTrainer {
     public float trainingtestRatio;
     public int maxPopulationSize;
-    public float mutationRate;
+    public double mutationRate;
     
     public double bestScore;
     public double bestTestScore;
@@ -18,7 +18,7 @@ public class GeneticTrainer {
     Dataset dataset_training = new Dataset();
     Dataset dataset_test = new Dataset();
 
-    public GeneticTrainer(float trainingtestRatio, int populationSize, float mutationRate) {
+    public GeneticTrainer(float trainingtestRatio, int populationSize, double mutationRate) {
         this.trainingtestRatio = trainingtestRatio;
         this.maxPopulationSize = populationSize;
         this.mutationRate = mutationRate;

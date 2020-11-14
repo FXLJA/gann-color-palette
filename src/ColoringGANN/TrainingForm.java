@@ -21,14 +21,14 @@ public class TrainingForm extends javax.swing.JFrame {
         initComponents();
         initSliders();
         
-        geneticTrainer = new GeneticTrainer(sl_trainingRatio.getValue()/100f, sl_populationSize.getValue(), sl_mutationRate.getValue()/100f);
+        geneticTrainer = new GeneticTrainer(sl_trainingRatio.getValue()/100f, sl_populationSize.getValue(), Math.pow(sl_mutationRate.getValue()/(double)sl_mutationRate.getMaximum(), 5));
         worker = null;
     }
     
     private void initSliders() {
         ed_trainingRatio.setText("" + sl_trainingRatio.getValue()/100f);
         ed_populationSize.setText("" + sl_populationSize.getValue());
-        ed_mutationRate.setText("" + sl_mutationRate.getValue()/100f);
+        ed_mutationRate.setText(String.format("%.8f", Math.pow(sl_mutationRate.getValue()/(double)sl_mutationRate.getMaximum(), 5)));
         
         sl_trainingRatio.addChangeListener(new ChangeListener() {
             @Override
@@ -47,8 +47,8 @@ public class TrainingForm extends javax.swing.JFrame {
         sl_mutationRate.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                ed_mutationRate.setText("" + sl_mutationRate.getValue()/100f);
-                geneticTrainer.mutationRate = sl_mutationRate.getValue()/100f;
+                ed_mutationRate.setText(String.format("%.8f", Math.pow(sl_mutationRate.getValue()/(double)sl_mutationRate.getMaximum(), 5)));
+                geneticTrainer.mutationRate = Math.pow(sl_mutationRate.getValue()/(double)sl_mutationRate.getMaximum(), 5);
             }
         });
     }
@@ -126,13 +126,13 @@ public class TrainingForm extends javax.swing.JFrame {
         ed_populationSize.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         ed_populationSize.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(ed_populationSize);
-        ed_populationSize.setBounds(380, 100, 90, 30);
+        ed_populationSize.setBounds(380, 100, 100, 30);
 
         ed_mutationRate.setEditable(false);
         ed_mutationRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         ed_mutationRate.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(ed_mutationRate);
-        ed_mutationRate.setBounds(380, 140, 90, 30);
+        ed_mutationRate.setBounds(380, 140, 100, 30);
 
         lbl_mutationRate.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lbl_mutationRate.setText("Mutation Rate");
@@ -160,7 +160,7 @@ public class TrainingForm extends javax.swing.JFrame {
         ed_trainingRatio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         ed_trainingRatio.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         getContentPane().add(ed_trainingRatio);
-        ed_trainingRatio.setBounds(380, 60, 90, 30);
+        ed_trainingRatio.setBounds(380, 60, 100, 30);
 
         lbl_scoreTraining.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lbl_scoreTraining.setText("BestTrainingScore :");
@@ -180,7 +180,7 @@ public class TrainingForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_saveGANN);
-        btn_saveGANN.setBounds(370, 20, 100, 23);
+        btn_saveGANN.setBounds(380, 20, 100, 23);
 
         btn_loadGANN.setText("Load GANN");
         btn_loadGANN.addActionListener(new java.awt.event.ActionListener() {
@@ -194,7 +194,7 @@ public class TrainingForm extends javax.swing.JFrame {
         jProgressBar1.setMaximum(99);
         jProgressBar1.setStringPainted(true);
         getContentPane().add(jProgressBar1);
-        jProgressBar1.setBounds(20, 240, 450, 30);
+        jProgressBar1.setBounds(20, 240, 460, 30);
 
         cb_autoTrain.setText("Auto-Train");
         getContentPane().add(cb_autoTrain);
