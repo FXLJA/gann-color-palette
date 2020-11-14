@@ -13,9 +13,9 @@ import javax.swing.JOptionPane;
 public class GANN {
     private static Random rand = new Random(System.currentTimeMillis());
     double[] input_layer = new double[7];
-    double[] hidden_layer = new double[49];
+    double[] hidden_layer = new double[64];
     double[] output_layer = new double[16];
-    public double[] dna = new double[input_layer.length * hidden_layer.length + hidden_layer.length * output_layer.length];
+    public double[] dna = new double[(input_layer.length+1) * hidden_layer.length + (hidden_layer.length+1) * output_layer.length];
 
     public void randomize() {
         for (int i = 0; i < dna.length; i++) {
@@ -92,15 +92,12 @@ public class GANN {
         double[] colorData = fowardPropagation(mode, c);
 
         for (int i = 0; i < 4; i++) {
-            double hx = colorData[i * 3];
-            double hy = colorData[i * 3 + 1];
+            double hx = colorData[i * 3] * 2 -1;
+            double hy = colorData[i * 3 + 1] * 2 -1;
             float s = (float) colorData[i * 3 + 2];
             float v = (float) colorData[i * 3 + 3];
             
-            float h = (float) (Math.atan2(hy, hx)/Math.PI);
-            if(h < 0) {
-                h += 1.0f;
-            }
+            float h = (float) (Math.atan2(hy, hx)*0.5/Math.PI);
             
             colors[i] = Color.getHSBColor(h, s, v);
         }
@@ -116,14 +113,18 @@ public class GANN {
         input_layer[1] = (mode == 1) ? 1 : 0;
         input_layer[2] = (mode == 2) ? 1 : 0;
         
-        input_layer[3] = Math.cos(color_hsb[0] * 2 * Math.PI);
-        input_layer[4] = Math.sin(color_hsb[0] * 2 * Math.PI);
-        input_layer[5] = color_hsb[1];
-        input_layer[6] = color_hsb[2];
+        input_layer[3] = Math.cos(color_hsb[0] * 2 * Math.PI) * 0.5 + 0.5;
+        input_layer[4] = Math.sin(color_hsb[0] * 2 * Math.PI) * 0.5 + 0.5;
+        input_layer[5] = color_hsb[1] * 2 - 1;
+        input_layer[6] = color_hsb[2] * 2 - 1;
 
         double[][] weight_input_to_hidden = new double[hidden_layer.length][input_layer.length];
         double[][] weight_hidden_to_output = new double[output_layer.length][hidden_layer.length];
+        
+        double[] bias_input_to_hidden = new double[hidden_layer.length];
+        double[] bias_hidden_to_output = new double[output_layer.length];
 
+        // Initialize
         for (int i = 0; i < hidden_layer.length; i++) {
             for (int k = 0; k < input_layer.length; k++) {
                 weight_input_to_hidden[i][k] = dna[i * input_layer.length + k];
@@ -136,14 +137,24 @@ public class GANN {
                 weight_hidden_to_output[i][k] = dna[offset + i * hidden_layer.length + k];
             }
         }
-
+        
+        offset += hidden_layer.length * output_layer.length;
+        for(int i = 0; i < hidden_layer.length; i++) {
+            bias_input_to_hidden[i] = dna[offset + i];
+        }
+        
+        offset += hidden_layer.length;
+        for(int i = 0; i < output_layer.length; i++) {
+            bias_hidden_to_output[i] = dna[offset + i];
+        }
+        
+        // Calculate
         for (int i = 0; i < hidden_layer.length; i++) {
             double total = 0;
             for (int k = 0; k < input_layer.length; k++) {
                 total += input_layer[k] * weight_input_to_hidden[i][k];
             }
-            // Activation function Sigmoid
-            hidden_layer[i] = sigmoid(total);
+            hidden_layer[i] = sigmoid(total + bias_input_to_hidden[i]);
         }
 
         for (int i = 0; i < output_layer.length; i++) {
@@ -151,7 +162,7 @@ public class GANN {
             for (int k = 0; k < hidden_layer.length; k++) {
                 total += hidden_layer[k] * weight_hidden_to_output[i][k];
             }
-            output_layer[i] = sigmoid(total);
+            output_layer[i] = sigmoid(total + bias_hidden_to_output[i]);
         }
 
         return output_layer;
@@ -171,11 +182,11 @@ public class GANN {
         return baru;
     }
     
-    public GANN mutate(float mutationRate) {
+    public GANN mutate(double mutationRate) {
         boolean hasMutate = false;
         
         for (int i = 0; i < dna.length; i++) {
-            if(rand.nextFloat() < mutationRate) {
+            if(rand.nextDouble() < mutationRate) {
                 this.dna[i] = rand.nextGaussian();
                 hasMutate = true;
             }
