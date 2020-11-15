@@ -12,11 +12,11 @@ import javax.swing.JOptionPane;
 
 public class GANN {
     private static Random rand = new Random(System.currentTimeMillis());
-    double[] input_layer = new double[6];
-    double[] hidden_layer = new double[36];
-    double[] hidden_layer2 = new double[24];
-    double[] output_layer = new double[12];
-    public double[] dna = new double[input_layer.length * hidden_layer.length + hidden_layer.length * hidden_layer2.length + hidden_layer2.length * output_layer.length];
+    double[] input_layer = new double[7];
+    double[] hidden_layer = new double[48];
+    double[] hidden_layer2 = new double[32];
+    double[] output_layer = new double[16];
+    public double[] dna = new double[(input_layer.length+1) * hidden_layer.length + (hidden_layer.length+1) * hidden_layer2.length + (hidden_layer2.length+1) * output_layer.length];
 
     public void randomize() {
         for (int i = 0; i < dna.length; i++) {
@@ -93,9 +93,15 @@ public class GANN {
         double[] colorData = fowardPropagation(mode, c);
 
         for (int i = 0; i < 4; i++) {
-            float h = (float) colorData[i * 3];
-            float s = (float) colorData[i * 3 + 1];
-            float v = (float) colorData[i * 3 + 2];
+            double hx = colorData[i * 3] * 2 -1;
+            double hy = colorData[i * 3 + 1] * 2 -1;
+            float s = (float) colorData[i * 3 + 2];
+            float v = (float) colorData[i * 3 + 3];
+            
+            float h = (float) (Math.atan2(hy, hx)*0.5/Math.PI);
+            if (h < 0) {
+                h += 1.0f;
+            }
             
             colors[i] = Color.getHSBColor(h, s, v);
         }
@@ -111,9 +117,10 @@ public class GANN {
         input_layer[1] = (mode == 1) ? 1 : 0;
         input_layer[2] = (mode == 2) ? 1 : 0;
         
-        input_layer[3] = color_hsb[0];
-        input_layer[4] = color_hsb[1];
-        input_layer[5] = color_hsb[2];
+        input_layer[3] = Math.cos(color_hsb[0] * 2 * Math.PI) * 0.5 + 0.5;
+        input_layer[4] = Math.sin(color_hsb[0] * 2 * Math.PI) * 0.5 + 0.5;
+        input_layer[5] = color_hsb[1] * 2 - 1;
+        input_layer[6] = color_hsb[2] * 2 - 1;
 
         
         double[][] weight_input_to_hidden = new double[hidden_layer.length][input_layer.length];
@@ -121,14 +128,18 @@ public class GANN {
         double[][] weight_hidden2_to_output = new double[output_layer.length][hidden_layer2.length];
         
         int offset = 0;
+        double[] bias_input_to_hidden = new double[hidden_layer.length];
+        double[] bias_hidden_to_hidden2 = new double[hidden_layer2.length];
+		double[] bias_hidden2_to_output = new double[output_layer.length];
+
+        // Initialize
         for (int i = 0; i < hidden_layer.length; i++) {
             for (int k = 0; k < input_layer.length; k++) {
                 weight_input_to_hidden[i][k] = dna[i * input_layer.length + k];
-                offset += 1;
             }
         }
         
-        int hidden_layer_offset = offset;
+        offset += hidden_layer.length * input_layer.length;
         for (int i = 0; i < hidden_layer2.length; i++) {
             for (int k = 0; k < hidden_layer.length; k++) {
                 weight_hidden_to_hidden2[i][k] = dna[hidden_layer_offset + i * hidden_layer.length + k];
@@ -136,21 +147,35 @@ public class GANN {
             }
         }
         
-        int hidden2_layer_offset = offset;
+        offset += hidden_layer2.length * hidden_layer.length;
         for (int i = 0; i < output_layer.length; i++) {
             for (int k = 0; k < hidden_layer2.length; k++) {
                 weight_hidden2_to_output[i][k] = dna[hidden2_layer_offset + i * hidden_layer2.length + k];
             }
         }
         
+        offset += hidden_layer.length * output_layer.length;
+        for(int i = 0; i < hidden_layer.length; i++) {
+            bias_input_to_hidden[i] = dna[offset + i];
+        }
         
+		offset += hidden_layer.length;
+        for(int i = 0; i < hidden_layer2.length; i++) {
+            bias_hidden_to_hidden2[i] = dna[offset + i];
+        }
+		
+        offset += hidden_layer2.length;
+        for(int i = 0; i < output_layer.length; i++) {
+            bias_hidden2_to_output[i] = dna[offset + i];
+        }
+        
+		
         for (int i = 0; i < hidden_layer.length; i++) {
             double total = 0;
             for (int k = 0; k < input_layer.length; k++) {
                 total += input_layer[k] * weight_input_to_hidden[i][k];
             }
-            // Activation function Sigmoid
-            hidden_layer[i] = sigmoid(total);
+            hidden_layer[i] = sigmoid(total + bias_input_to_hidden[i]);
         }
         
         for (int i = 0; i < hidden_layer2.length; i++) {
@@ -158,8 +183,7 @@ public class GANN {
             for (int k = 0; k < hidden_layer.length; k++) {
                 total += hidden_layer[k] * weight_hidden_to_hidden2[i][k];
             }
-            // Activation function Sigmoid
-            hidden_layer2[i] = sigmoid(total);
+            hidden_layer2[i] = sigmoid(total + bias_hidden_to_hidden2[i]);
         }
 
         for (int i = 0; i < output_layer.length; i++) {
@@ -167,7 +191,7 @@ public class GANN {
             for (int k = 0; k < hidden_layer2.length; k++) {
                 total += hidden_layer2[k] * weight_hidden2_to_output[i][k];
             }
-            output_layer[i] = sigmoid(total);
+            output_layer[i] = sigmoid(total + bias_hidden2_to_output[i]);
         }
 
         return output_layer;

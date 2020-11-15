@@ -142,7 +142,7 @@ public class TrainingForm extends javax.swing.JFrame {
         sl_mutationRate.setMaximum(1000);
         sl_mutationRate.setMinimum(1);
         sl_mutationRate.setMinorTickSpacing(1);
-        sl_mutationRate.setValue(10);
+        sl_mutationRate.setValue(900);
         getContentPane().add(sl_mutationRate);
         sl_mutationRate.setBounds(160, 140, 210, 22);
 
