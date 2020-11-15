@@ -98,6 +98,9 @@ public class GANN {
             float v = (float) colorData[i * 3 + 3];
             
             float h = (float) (Math.atan2(hy, hx)*0.5/Math.PI);
+            if (h < 0) {
+                h += 1.0f;
+            }
             
             colors[i] = Color.getHSBColor(h, s, v);
         }
