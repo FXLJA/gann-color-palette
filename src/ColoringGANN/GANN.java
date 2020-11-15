@@ -142,24 +142,23 @@ public class GANN {
         offset += hidden_layer.length * input_layer.length;
         for (int i = 0; i < hidden_layer2.length; i++) {
             for (int k = 0; k < hidden_layer.length; k++) {
-                weight_hidden_to_hidden2[i][k] = dna[hidden_layer_offset + i * hidden_layer.length + k];
-                offset += 1;
+                weight_hidden_to_hidden2[i][k] = dna[offset + i * hidden_layer.length + k];
             }
         }
         
         offset += hidden_layer2.length * hidden_layer.length;
         for (int i = 0; i < output_layer.length; i++) {
             for (int k = 0; k < hidden_layer2.length; k++) {
-                weight_hidden2_to_output[i][k] = dna[hidden2_layer_offset + i * hidden_layer2.length + k];
+                weight_hidden2_to_output[i][k] = dna[offset + i * hidden_layer2.length + k];
             }
         }
         
-        offset += hidden_layer.length * output_layer.length;
+        offset += hidden_layer2.length * output_layer.length;
         for(int i = 0; i < hidden_layer.length; i++) {
             bias_input_to_hidden[i] = dna[offset + i];
         }
         
-		offset += hidden_layer.length;
+        offset += hidden_layer.length;
         for(int i = 0; i < hidden_layer2.length; i++) {
             bias_hidden_to_hidden2[i] = dna[offset + i];
         }
