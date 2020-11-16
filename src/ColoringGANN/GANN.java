@@ -15,7 +15,7 @@ public class GANN {
     double[] input_layer = new double[6];
     double[] hidden_layer = new double[48];
     double[] output_layer = new double[12];
-    public double[] dna = new double[input_layer.length * hidden_layer.length + hidden_layer.length * output_layer.length];
+    public double[] dna = new double[(input_layer.length + 1) * hidden_layer.length + (hidden_layer.length + 1) * output_layer.length];
 
     public void randomize() {
         for (int i = 0; i < dna.length; i++) {
@@ -116,6 +116,8 @@ public class GANN {
 
         double[][] weight_input_to_hidden = new double[hidden_layer.length][input_layer.length];
         double[][] weight_hidden_to_output = new double[output_layer.length][hidden_layer.length];
+        double[] bias_input_to_hidden = new double[hidden_layer.length];
+        double[] bias_hidden_to_output= new double[output_layer.length];
 
         for (int i = 0; i < hidden_layer.length; i++) {
             for (int k = 0; k < input_layer.length; k++) {
@@ -129,14 +131,24 @@ public class GANN {
                 weight_hidden_to_output[i][k] = dna[offset + i * hidden_layer.length + k];
             }
         }
+        
+        offset += hidden_layer.length * output_layer.length;
+        for (int i=0; i < hidden_layer.length; i++){
+            bias_input_to_hidden[i] = dna[offset + i];
+        }
 
+        offset += hidden_layer.length;
+        for (int i=0; i < output_layer.length; i++){
+            bias_hidden_to_output[i] = dna[offset + i];
+        }
+        
         for (int i = 0; i < hidden_layer.length; i++) {
             double total = 0;
             for (int k = 0; k < input_layer.length; k++) {
                 total += input_layer[k] * weight_input_to_hidden[i][k];
             }
             // Activation function Sigmoid
-            hidden_layer[i] = sigmoid(total);
+            hidden_layer[i] = sigmoid(total + bias_input_to_hidden[i]);
         }
 
         for (int i = 0; i < output_layer.length; i++) {
@@ -144,7 +156,7 @@ public class GANN {
             for (int k = 0; k < hidden_layer.length; k++) {
                 total += hidden_layer[k] * weight_hidden_to_output[i][k];
             }
-            output_layer[i] = sigmoid(total);
+            output_layer[i] = sigmoid(total + bias_hidden_to_output[i]);
         }
 
         return output_layer;
