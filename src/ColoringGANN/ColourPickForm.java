@@ -57,7 +57,6 @@ public class ColourPickForm extends javax.swing.JFrame {
         getContentPane().setLayout(null);
 
         jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ColoringGANN/UBM.png"))); // NOI18N
-        jLabel2.setPreferredSize(new java.awt.Dimension(120, 80));
         getContentPane().add(jLabel2);
         jLabel2.setBounds(310, 0, 120, 80);
 
