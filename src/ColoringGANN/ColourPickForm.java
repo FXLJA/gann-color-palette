@@ -1,7 +1,6 @@
 package ColoringGANN;
 
 import java.awt.Color;
-import java.beans.PropertyChangeEvent;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,18 +9,14 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.colorchooser.AbstractColorChooserPanel;
 import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 
 public class ColourPickForm extends javax.swing.JFrame {
 
     public ColourPickForm() {
         initComponents();
 
-        colorChooser.getSelectionModel().addChangeListener(new ChangeListener() {
-            @Override
-            public void stateChanged(ChangeEvent e) {
-                panelWarna1.setColor(colorChooser.getColor());
-            }
+        colorChooser.getSelectionModel().addChangeListener((ChangeEvent e) -> {
+            panelWarna1.setColor(colorChooser.getColor());
         });
 
         AbstractColorChooserPanel panels[] = colorChooser.getChooserPanels();
@@ -35,6 +30,7 @@ public class ColourPickForm extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
         cmb_tema = new javax.swing.JComboBox<>();
         colorChooser = new javax.swing.JColorChooser();
         btn_save = new javax.swing.JButton();
@@ -49,9 +45,10 @@ public class ColourPickForm extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DO_NOTHING_ON_CLOSE);
         setTitle("Color Gun");
-        setMaximumSize(new java.awt.Dimension(600, 500));
-        setMinimumSize(new java.awt.Dimension(600, 500));
-        setPreferredSize(new java.awt.Dimension(600, 500));
+        setMaximumSize(new java.awt.Dimension(680, 480));
+        setMinimumSize(new java.awt.Dimension(680, 480));
+        setPreferredSize(new java.awt.Dimension(680, 480));
+        setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
@@ -59,11 +56,16 @@ public class ColourPickForm extends javax.swing.JFrame {
         });
         getContentPane().setLayout(null);
 
-        cmb_tema.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Professional", "Colourful", "Monochrome" }));
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/ColoringGANN/UBM.png"))); // NOI18N
+        jLabel2.setPreferredSize(new java.awt.Dimension(120, 80));
+        getContentPane().add(jLabel2);
+        jLabel2.setBounds(310, 0, 120, 80);
+
+        cmb_tema.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Analogous", "Triadic", "Monochrome" }));
         getContentPane().add(cmb_tema);
-        cmb_tema.setBounds(100, 20, 320, 30);
+        cmb_tema.setBounds(100, 20, 140, 30);
         getContentPane().add(colorChooser);
-        colorChooser.setBounds(10, 60, 560, 311);
+        colorChooser.setBounds(10, 60, 630, 311);
 
         btn_save.setText("Save");
         btn_save.addActionListener(new java.awt.event.ActionListener() {
@@ -72,7 +74,7 @@ public class ColourPickForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_save);
-        btn_save.setBounds(10, 410, 110, 23);
+        btn_save.setBounds(10, 410, 110, 22);
 
         lbl_tema.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lbl_tema.setText("Pilih Tema :");
@@ -86,7 +88,7 @@ public class ColourPickForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_generate);
-        btn_generate.setBounds(10, 380, 110, 23);
+        btn_generate.setBounds(10, 380, 110, 22);
 
         btn_trainingForm.setText("Training Form");
         btn_trainingForm.setToolTipText("");
@@ -96,7 +98,7 @@ public class ColourPickForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_trainingForm);
-        btn_trainingForm.setBounds(430, 20, 120, 30);
+        btn_trainingForm.setBounds(520, 20, 120, 30);
         getContentPane().add(panelWarna1);
         panelWarna1.setBounds(130, 380, 80, 40);
         getContentPane().add(panelWarna2);
@@ -119,13 +121,13 @@ public class ColourPickForm extends javax.swing.JFrame {
             if (result == JFileChooser.APPROVE_OPTION) {
                 File selectedFile = fileChooser.getSelectedFile();
                 
-                FileWriter myWriter = new FileWriter(selectedFile.getAbsolutePath());
-                myWriter.write(panelWarna1.getText() + "\n");
-                myWriter.write(panelWarna2.getText() + "\n");
-                myWriter.write(panelWarna3.getText() + "\n");
-                myWriter.write(panelWarna4.getText() + "\n");
-                myWriter.write(panelWarna5.getText() + "\n");
-                myWriter.close();
+                try (FileWriter myWriter = new FileWriter(selectedFile.getAbsolutePath())) {
+                    myWriter.write(panelWarna1.getText() + "\n");
+                    myWriter.write(panelWarna2.getText() + "\n");
+                    myWriter.write(panelWarna3.getText() + "\n");
+                    myWriter.write(panelWarna4.getText() + "\n");
+                    myWriter.write(panelWarna5.getText() + "\n");
+                }
                 
                 JOptionPane.showMessageDialog(null, "Tema Warna berhasil disimpan!", "Message", JOptionPane.INFORMATION_MESSAGE);
             }
@@ -169,6 +171,7 @@ public class ColourPickForm extends javax.swing.JFrame {
     private javax.swing.JButton btn_trainingForm;
     private javax.swing.JComboBox<String> cmb_tema;
     private javax.swing.JColorChooser colorChooser;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lbl_tema;
     private ColoringGANN.PanelWarna panelWarna1;
     private ColoringGANN.PanelWarna panelWarna2;

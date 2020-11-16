@@ -94,7 +94,7 @@ public class TrainingForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_load);
-        btn_load.setBounds(20, 20, 120, 22);
+        btn_load.setBounds(250, 20, 120, 22);
 
         btn_reset.setText("Reset");
         btn_reset.addActionListener(new java.awt.event.ActionListener() {
@@ -103,7 +103,7 @@ public class TrainingForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_reset);
-        btn_reset.setBounds(150, 20, 90, 22);
+        btn_reset.setBounds(380, 20, 90, 22);
 
         sl_trainingRatio.setValue(99);
         getContentPane().add(sl_trainingRatio);
@@ -166,16 +166,16 @@ public class TrainingForm extends javax.swing.JFrame {
         ed_trainingRatio.setBounds(380, 60, 90, 30);
 
         lbl_scoreTraining.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbl_scoreTraining.setText("BestTrainingScore :");
+        lbl_scoreTraining.setText("Training Score :");
         getContentPane().add(lbl_scoreTraining);
         lbl_scoreTraining.setBounds(290, 200, 190, 20);
 
         lbl_scoreTest.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
-        lbl_scoreTest.setText("BestTestScore :");
+        lbl_scoreTest.setText("Test Score      :");
         getContentPane().add(lbl_scoreTest);
         lbl_scoreTest.setBounds(290, 180, 190, 20);
 
-        btn_saveGANN.setText("Save ANN");
+        btn_saveGANN.setText("Save GANN");
         btn_saveGANN.setEnabled(false);
         btn_saveGANN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,7 +183,7 @@ public class TrainingForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_saveGANN);
-        btn_saveGANN.setBounds(370, 20, 100, 22);
+        btn_saveGANN.setBounds(130, 20, 100, 22);
 
         btn_loadGANN.setText("Load GANN");
         btn_loadGANN.addActionListener(new java.awt.event.ActionListener() {
@@ -192,7 +192,7 @@ public class TrainingForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_loadGANN);
-        btn_loadGANN.setBounds(260, 20, 100, 22);
+        btn_loadGANN.setBounds(20, 20, 100, 22);
 
         jProgressBar1.setMaximum(99);
         jProgressBar1.setStringPainted(true);
