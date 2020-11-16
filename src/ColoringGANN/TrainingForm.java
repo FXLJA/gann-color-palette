@@ -21,14 +21,17 @@ public class TrainingForm extends javax.swing.JFrame {
         initComponents();
         initSliders();
         
-        geneticTrainer = new GeneticTrainer(sl_trainingRatio.getValue()/100f, sl_populationSize.getValue(), sl_mutationRate.getValue()/100f);
+        geneticTrainer = new GeneticTrainer(
+                sl_trainingRatio.getValue()/100f, 
+                sl_populationSize.getValue(), 
+                sl_mutationRate.getValue()/1000f);
         worker = null;
     }
     
     private void initSliders() {
         ed_trainingRatio.setText("" + sl_trainingRatio.getValue()/100f);
         ed_populationSize.setText("" + sl_populationSize.getValue());
-        ed_mutationRate.setText("" + sl_mutationRate.getValue()/100f);
+        ed_mutationRate.setText("" + sl_mutationRate.getValue()/1000f);
         
         sl_trainingRatio.addChangeListener(new ChangeListener() {
             @Override
@@ -47,8 +50,8 @@ public class TrainingForm extends javax.swing.JFrame {
         sl_mutationRate.addChangeListener(new ChangeListener() {
             @Override
             public void stateChanged(ChangeEvent e) {
-                ed_mutationRate.setText("" + sl_mutationRate.getValue()/100f);
-                geneticTrainer.mutationRate = sl_mutationRate.getValue()/100f;
+                ed_mutationRate.setText("" + sl_mutationRate.getValue()/1000f);
+                geneticTrainer.mutationRate = sl_mutationRate.getValue()/1000f;
             }
         });
     }
@@ -91,7 +94,7 @@ public class TrainingForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_load);
-        btn_load.setBounds(20, 20, 120, 23);
+        btn_load.setBounds(20, 20, 120, 22);
 
         btn_reset.setText("Reset");
         btn_reset.addActionListener(new java.awt.event.ActionListener() {
@@ -100,11 +103,11 @@ public class TrainingForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_reset);
-        btn_reset.setBounds(150, 20, 90, 23);
+        btn_reset.setBounds(150, 20, 90, 22);
 
         sl_trainingRatio.setValue(99);
         getContentPane().add(sl_trainingRatio);
-        sl_trainingRatio.setBounds(160, 60, 210, 22);
+        sl_trainingRatio.setBounds(160, 60, 210, 11);
 
         lbl_trainingRatio.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lbl_trainingRatio.setText("Training/Test Ratio");
@@ -115,7 +118,7 @@ public class TrainingForm extends javax.swing.JFrame {
         sl_populationSize.setMinimum(10);
         sl_populationSize.setValue(200);
         getContentPane().add(sl_populationSize);
-        sl_populationSize.setBounds(160, 100, 210, 22);
+        sl_populationSize.setBounds(160, 100, 210, 11);
 
         lbl_populationSize.setFont(new java.awt.Font("Tahoma", 0, 14)); // NOI18N
         lbl_populationSize.setText("Population Size");
@@ -139,11 +142,12 @@ public class TrainingForm extends javax.swing.JFrame {
         getContentPane().add(lbl_mutationRate);
         lbl_mutationRate.setBounds(20, 140, 110, 20);
 
+        sl_mutationRate.setMaximum(1000);
         sl_mutationRate.setMinimum(1);
         sl_mutationRate.setMinorTickSpacing(1);
         sl_mutationRate.setValue(10);
         getContentPane().add(sl_mutationRate);
-        sl_mutationRate.setBounds(160, 140, 210, 22);
+        sl_mutationRate.setBounds(160, 140, 210, 11);
 
         btn_nextGen1.setText("Next Gen");
         btn_nextGen1.setEnabled(false);
@@ -179,7 +183,7 @@ public class TrainingForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_saveGANN);
-        btn_saveGANN.setBounds(370, 20, 100, 23);
+        btn_saveGANN.setBounds(370, 20, 100, 22);
 
         btn_loadGANN.setText("Load GANN");
         btn_loadGANN.addActionListener(new java.awt.event.ActionListener() {
@@ -188,7 +192,7 @@ public class TrainingForm extends javax.swing.JFrame {
             }
         });
         getContentPane().add(btn_loadGANN);
-        btn_loadGANN.setBounds(260, 20, 100, 23);
+        btn_loadGANN.setBounds(260, 20, 100, 22);
 
         jProgressBar1.setMaximum(99);
         jProgressBar1.setStringPainted(true);
