@@ -219,7 +219,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btn_saveGANN">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Save GANN"/>
+        <Property name="text" type="java.lang.String" value="Save GNN"/>
         <Property name="enabled" type="boolean" value="false"/>
       </Properties>
       <Events>
@@ -233,7 +233,7 @@
     </Component>
     <Component class="javax.swing.JButton" name="btn_loadGANN">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Load GANN"/>
+        <Property name="text" type="java.lang.String" value="Load GNN"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_loadGANNActionPerformed"/>

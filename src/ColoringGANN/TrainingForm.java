@@ -175,7 +175,7 @@ public class TrainingForm extends javax.swing.JFrame {
         getContentPane().add(lbl_scoreTest);
         lbl_scoreTest.setBounds(290, 180, 190, 20);
 
-        btn_saveGANN.setText("Save GANN");
+        btn_saveGANN.setText("Save GNN");
         btn_saveGANN.setEnabled(false);
         btn_saveGANN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -185,7 +185,7 @@ public class TrainingForm extends javax.swing.JFrame {
         getContentPane().add(btn_saveGANN);
         btn_saveGANN.setBounds(130, 20, 100, 22);
 
-        btn_loadGANN.setText("Load GANN");
+        btn_loadGANN.setText("Load GNN");
         btn_loadGANN.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_loadGANNActionPerformed(evt);
